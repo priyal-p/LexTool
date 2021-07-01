@@ -15,7 +15,7 @@ class Lexer {
     }
     
     enum Error: Swift.Error {
-        case invalidCharacter(Character)
+        case invalidCharacter(Character, Int)
     }
     
     private func peek() -> Character? {
@@ -62,7 +62,7 @@ class Lexer {
                 tokens.append(.minus)
                 advancePosition()
             default:
-                throw Error.invalidCharacter(nextCharacter)
+                throw Error.invalidCharacter(nextCharacter, input.distance(from: input.startIndex, to: position))
             }
         }
         return tokens

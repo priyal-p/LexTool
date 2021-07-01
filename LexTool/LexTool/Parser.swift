@@ -12,7 +12,7 @@ class Parser {
     
     enum Error: Swift.Error {
         case unexpectedEndOfInput
-        case invalidToken(Token)
+        case invalidToken(Token, Int)
     }
     
     init(tokens: [Token]) {
@@ -40,9 +40,9 @@ class Parser {
         case let .numbers(num):
             return num
         case .plus:
-            throw Error.invalidToken(token)
+            throw Error.invalidToken(token, position)
         case .minus:
-            throw Error.invalidToken(token)
+            throw Error.invalidToken(token, position)
         }
     }
     func parse() throws -> Int {
@@ -58,7 +58,7 @@ class Parser {
                 let number = try getNumber()
                 total -= number
             case .numbers:
-                throw Error.invalidToken(nextToken)
+                throw Error.invalidToken(nextToken, position)
             }
         }
         return total
